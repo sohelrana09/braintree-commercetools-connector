@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* No body or code rules: this stylesheet is injected into the shop's page and must not change the shop's own font. */
+
+/* Hosted field containers (styles/index.tsx): the storefront's focus ring and error border. */
+.braintree-hosted-fields-focused {
+    border-color: #c2410c;
+    box-shadow: 0 0 0 1px #c2410c;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+.braintree-hosted-fields-invalid {
+    border-color: #b91c1c;
 }

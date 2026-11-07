@@ -184,7 +184,7 @@ export const CreditCardMask: FC<PropsWithChildren<CreditCardMaskProps>> = ({
     let hostedFieldsInputs: object = {
       number: {
         container: "#card-number",
-        placeholder: "4111 1111 1111 1111",
+        placeholder: "1234 1234 1234 1234",
       },
       cvv: {
         container: "#cvv",
@@ -192,7 +192,7 @@ export const CreditCardMask: FC<PropsWithChildren<CreditCardMaskProps>> = ({
       },
       expirationDate: {
         container: "#expiration-date",
-        placeholder: "MM/YYYY",
+        placeholder: "MM / YY",
       },
     };
 
@@ -219,20 +219,18 @@ export const CreditCardMask: FC<PropsWithChildren<CreditCardMaskProps>> = ({
       {
         client: client,
         styles: {
+          // The storefront's text (its body font), near-black, red when invalid. The fields are iframes, so
+          // they can't inherit the page's font.
           input: {
             "font-size": "16px",
-            "font-family": "courier, monospace",
-            "font-weight": "lighter",
-            color: "#ccc",
+            "font-family": "Arial, Helvetica, sans-serif",
+            color: "#111827",
           },
-          ":focus": {
-            color: "black",
-          },
-          ".valid": {
-            color: "#8bdda8",
+          "::placeholder": {
+            color: "#9ca3af",
           },
           ".invalid": {
-            color: "#DE7976",
+            color: "#b91c1c",
           },
         },
         fields: {
@@ -411,38 +409,53 @@ export const CreditCardMask: FC<PropsWithChildren<CreditCardMaskProps>> = ({
         action="/"
         method="post"
         id="cardForm"
-        className="m-auto p-8 max-w-3xl"
+        className="w-full max-w-md"
       >
         <label className={HOSTED_FIELDS_LABEL} htmlFor="card-number">
-          Card Number
+          Card number
         </label>
         <div
           ref={ccNumberRef}
           id="card-number"
-          className={`h-12 box-border w-full inline-block shadow-none font-semibold text-sm rounded-md border border-violet-50 leading-5 bg-slate-50 mb-3 px-3`}
+          className={`${HOSTED_FIELDS} px-3`}
         ></div>
 
         {showCardHoldersName && (
           <>
             <label className={HOSTED_FIELDS_LABEL} htmlFor="cc-name">
-              Name
+              Name on card
             </label>
             <div
               ref={ccNameRef}
               id="cc-name"
-              className={`${HOSTED_FIELDS} p-3`}
+              className={`${HOSTED_FIELDS} px-3`}
             ></div>
           </>
         )}
 
-        <label className={HOSTED_FIELDS_LABEL} htmlFor="expiration-date">
-          Expiration Date
-        </label>
-        <div
-          ref={ccExpireRef}
-          id="expiration-date"
-          className={`${HOSTED_FIELDS} p-3`}
-        ></div>
+        {/* Expiry date and CVV side by side. */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className={HOSTED_FIELDS_LABEL} htmlFor="expiration-date">
+              Expiry date
+            </label>
+            <div
+              ref={ccExpireRef}
+              id="expiration-date"
+              className={`${HOSTED_FIELDS} px-3`}
+            ></div>
+          </div>
+          <div>
+            <label className={HOSTED_FIELDS_LABEL} htmlFor="cvv">
+              Security code (CVV)
+            </label>
+            <div
+              ref={ccCvvRef}
+              id="cvv"
+              className={`${HOSTED_FIELDS} px-3`}
+            ></div>
+          </div>
+        </div>
 
         {showPostalCode && (
           <>
@@ -452,22 +465,21 @@ export const CreditCardMask: FC<PropsWithChildren<CreditCardMaskProps>> = ({
             <div
               ref={ccPostalRef}
               id="postal-code"
-              className={`${HOSTED_FIELDS} p-3`}
+              className={`${HOSTED_FIELDS} px-3`}
             ></div>
           </>
         )}
-
-        <label className={HOSTED_FIELDS_LABEL} htmlFor="cvv">
-          CVV
-        </label>
-        <div ref={ccCvvRef} id="cvv" className={`${HOSTED_FIELDS} p-3`}></div>
 
         {!onRegisterSubmit &&
           enableVaulting &&
           paymentInfo.ctCustomerId && ( //PURE_VAULT_DISABLED  && !isPureVault
             <>
-              <label className={`${HOSTED_FIELDS_LABEL} mb-2`}>
-                <input className="mr-3" ref={ccVaultCheckbox} type="checkbox" />
+              <label className="mb-2 flex items-center gap-2 text-sm text-gray-900">
+                <input
+                  className="size-4 accent-orange-700"
+                  ref={ccVaultCheckbox}
+                  type="checkbox"
+                />
                 {vaultLabel ?? DEFAULT_VAULT_LABEL}
               </label>
             </>
