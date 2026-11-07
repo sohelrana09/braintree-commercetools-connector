@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         directory: [
-          'braintree-commercetools-events',
           'braintree-extension',
           'braintree-notifications',
           'common-connect',
